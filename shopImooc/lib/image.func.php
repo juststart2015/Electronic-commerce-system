@@ -24,7 +24,9 @@
 		$chars = buildRandomString($type,$length);
 		//把该验证码赋值给$sess_name，以便后面与用户输入的进行验证对比
 		$_SESSION['$sess_name'] = $chars;
-		$fontfiles = array("MSYH.TTF","MSYHBD.TTF","SIMLI.TTF","SIMSUN.TTC","SIMYOU.TTF","STZHONGS.TTF");
+		//因字体文件太大，上传GitHub及下载时过分耗时，故删减成2个字体文件，其余字体可自行添加
+		//$fontfiles = array("MSYH.TTF","MSYHBD.TTF","SIMLI.TTF","SIMSUN.TTC","SIMYOU.TTF","STZHONGS.TTF");
+		$fontfiles = array("SIMLI.TTF","SIMYOU.TTF");
 		//for循环生成随机验证码
 		for($i = 0; $i < $length; $i++){
 			//mt_rand()函数，使用Mersenne Twister算法返回随机整数
