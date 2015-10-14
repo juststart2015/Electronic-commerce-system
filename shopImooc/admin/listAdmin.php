@@ -2,7 +2,8 @@
 	require_once ("../include.php");
 	//要分页时调用以下函数
 	$pageSize = 2;
-	$rows = getAdminByPage($pageSize);
+	$page = $_REQUEST['page']?(int)$_REQUEST['page']:1;
+	$rows = getAdminByPage($page,$pageSize);
 	//不用分页时，调用以下函数
 	//$rows = getAllAdmin();
 	
@@ -49,7 +50,7 @@
 									<td align="center"><input type="button" value="修改" class="btn" onClick="editAdmin(<?php echo $row['id']; ?>)"><input type="button" value="删除" class="btn" onClick="delAdmin(<?php echo $row['id']; ?>)"></td>
 								</tr>
 							<?php endforeach; ?>
-							<?php if($rows>$pageSize): ?>
+							<?php if($totalRows>=$pageSize): ?>
 							<tr>
 								<td colspan="4"><?php echo showPage($page,$totalPage); ?></td>
 							</tr>

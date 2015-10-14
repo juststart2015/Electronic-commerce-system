@@ -32,9 +32,10 @@
 	}
 	
 	//调用管理员列表，这里做了分页操作
-	function getAdminByPage($pageSize=2){
+	function getAdminByPage($page,$pageSize=2){
 		$sql = "select * from imooc_admin";
-		//得到所有记录的记录数
+		//得到所有记录的记录数,这里把$totalRows变成全局变量，是方便listAdmin在判断总记录数，并判断显示页码时调用
+		global $totalRows;
 		$totalRows = getResultNum($sql);
 		//$pageSize记录每页显示几条，
 		$pageSize = 2;
@@ -43,7 +44,6 @@
 		$totalPage = ceil($totalRows/$pageSize);
 		//设置当前默认页数,这里把$page设为全局变量，是方便page.func.php在获取当前页时调用
 		global $page;
-		$page = $_REQUEST['page']?(int)$_REQUEST['page']:1;
 		//判断是否小于1，是否为空，或者不是数字，则都为$page都为1
 		if($page<1||$page==null||!is_numeric($page)){
 			$page = 1;

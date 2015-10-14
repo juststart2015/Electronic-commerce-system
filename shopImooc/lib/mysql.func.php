@@ -30,8 +30,13 @@
 			$str.=$sep.$key."='".$val."'";
 		}
 		$sql = "update {$table} set {$str}".($where == null?null:" where ".$where);
-		mysql_query($sql);
-		return mysql_affected_rows();
+		$result = mysql_query($sql);
+		//这里添加判断，执行结果是否为真，即是否执行成功
+		if($result){
+			return mysql_affected_rows();
+		}else{
+			return false;
+		}
 	}
 	
 	//删除数据库记录

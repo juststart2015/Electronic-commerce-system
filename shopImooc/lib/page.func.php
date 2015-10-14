@@ -37,8 +37,10 @@
 		//判断当前页码为第几页，并以此判断首页、尾页、上一页、下一页
 		$index = ($page == 1)?"首页":"<a href='{$url}?page=1{$where}'>首页</a>";
 		$last = ($page == $totalPage)?"尾页":"<a href='{$url}?page={$totalPage}{$where}'>尾页</a>";
-		$prev = ($page == 1)?"上一页":"<a href='{$url}?page=".($page-1)."{$where}'>上一页</a>";
-		$next = ($page == $totalPage)?"下一页":"<a href='{$url}?page=".($page+1)."{$where}'>下一页</a>";
+		$prevPage = ($page>=1)?$page-1:1;
+		$nextPage = ($page>=$totalPage)?$totalPage:$page+1;
+		$prev = ($page == 1)?"上一页":"<a href='{$url}?page={$prevPage}{$where}'>上一页</a>";
+		$next = ($page == $totalPage)?"下一页":"<a href='{$url}?page={$nextPage}{$where}'>下一页</a>";
 		$str = "总共{$totalPage}页/当前是第{$page}页";
 		//循环出页码数
 		for($i=1;$i<=$totalPage;$i++){
@@ -48,7 +50,7 @@
 			//若不吻合，则输出一个带连接的页数
 			}else{
 				//非当前页的页数，都带上超链接，页码数为其本身(也就是$i,$i是不断循环的)
-				$p.="<a href='{$url}?page={$i}'>[{$i}]</a>";
+				$p.="<a href='{$url}?page={$i}{$where}'>[{$i}]</a>";
 			}
 		}
 		//按此顺序输出，并返回出去
