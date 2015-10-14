@@ -1,5 +1,6 @@
 ﻿<?php
-	error_reporting (E_ALL & ~E_DEPRECATED);
+	//该语句屏蔽了php的notice警告，如undefined variable等
+	ini_set("error_reporting","E_ALL & ~E_NOTICE");
 	//连接数据库
 	function connect(){
 		$link = mysql_connect(DB_HOST,DB_USER,DB_PWD)or die("数据库连接失败Error：".mysql_errno().":".mysql_error());
@@ -18,12 +19,13 @@
 	}
 	
 	//更新数据库操作
+	//这里的$str用于接受循环结果的值，$sep接受间隔符，最终形成一个sql段存入$str中并被$sql调用
 	function update($table,$array,$where=null){
 		foreach($array as $key => $val){
 			if($str == null){
 				$sep = "";
 			}else{
-				$sep=",";
+				$sep = ",";
 			}
 			$str.=$sep.$key."='".$val."'";
 		}
