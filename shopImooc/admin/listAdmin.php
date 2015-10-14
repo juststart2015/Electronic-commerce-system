@@ -1,6 +1,11 @@
 <?php
 	require_once ("../include.php");
-	$rows = getAllAdmin();
+	//要分页时调用以下函数
+	$pageSize = 2;
+	$rows = getAdminByPage($pageSize);
+	//不用分页时，调用以下函数
+	//$rows = getAllAdmin();
+	
 	//判断是否有管理员存在，若没有则跳转到addAdmin.php中，并执行exit退出本页面
 	if(!$rows){
 		alertMes("sorry,没有管理员，请添加！","addAdmin.php");
@@ -34,15 +39,21 @@
                             </tr>
                         </thead>
                         <tbody>
-							<?php $i = 1; foreach($rows as $row): ?>
+							<!-- 循环出管理员列表表格 -->
+							<?php foreach($rows as $row): ?>
 								<tr>
 									<!--这里的id和for里面的c1 需要循环出来-->
-									<td><input type="checkbox" id="c1" class="check"><label for="c1" class="label"><?php echo $i; ?></label></td>
+									<td><input type="checkbox" id="c1" class="check"><label for="c1" class="label"><?php echo $row['id']; ?></label></td>
 									<td><?php echo $row['username']; ?></td>
 									<td><?php echo $row['email']; ?></td>
 									<td align="center"><input type="button" value="修改" class="btn" onClick="editAdmin(<?php echo $row['id']; ?>)"><input type="button" value="删除" class="btn" onClick="delAdmin(<?php echo $row['id']; ?>)"></td>
 								</tr>
-							<?php $i++; endforeach; ?>
+							<?php endforeach; ?>
+							<?php if($rows>$pageSize): ?>
+							<tr>
+								<td colspan="4"><?php echo showPage($page,$totalPage); ?></td>
+							</tr>
+							<?php endif; ?>
                         </tbody>
                     </table>
                 </div>
