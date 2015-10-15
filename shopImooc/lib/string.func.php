@@ -21,4 +21,18 @@
 		//substr()从字符串中返回指定位数的及长度的字符
 		return substr($chars,0,$length);
 	}
+	
+	//生成唯一的字符串
+	function getUniName(){
+		return md5(uniqid(microtime(true),true));
+	}
+	
+	//获取文件的扩展名
+	function getExt($filename){
+		$a = explode(".",$filename);
+		return strtolower(end($a));
+		//若直接如下写，会提示Only variables should be passed by reference
+		//原因是php5.3以上，默认只能传具体的变量，而不能通过函数返回值传递，所以得赋个具体变量来调用
+		//return strtolower(end(explode(".",$filename)));
+	}
 ?>

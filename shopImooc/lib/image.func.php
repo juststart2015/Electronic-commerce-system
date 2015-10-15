@@ -1,8 +1,8 @@
 ﻿<?php
-		//引入 string.func.php
-		require_once("string.func.php");
-		//产生验证码函数verifyImage()
-		function verifyImage($type =1,$length = 4,$pixel = 0,$line = 0,$sess_name = "verify"){
+	//引入 string.func.php
+	require_once("string.func.php");
+	//产生验证码函数verifyImage()
+	function verifyImage($type =1,$length = 4,$pixel = 0,$line = 0,$sess_name = "verify"){
 		session_start();
 		//0b_clean()函数丢弃输出缓冲区中的内容
 		ob_clean();
@@ -68,5 +68,54 @@
 		imagegif($image);
 		//inagedestroy销毁图像，释放与image关联的内存
 		imagedestroy($image);
+	}
+	
+	//生成缩略图函数
+	function thumb($filename,$destination=null,$dst_w=null,$dst_h=null,$isReservedSource=false,$scale=0.5){
+		//list()函数为里面的元素赋上数组中的值,getimagesize ( string $filename [, array &$imageinfo ] )获取图像的大小，若没有有效信息，返回false
+		list($src_w,$src_h,$imagetype)=getimagesize($filename);
+		//设置默认缩放比例
+		//$scale = 0.5;
+		//判断是否设置缩放比
+		if(is_null($dst_w)||is_null($dst_h)){
+			$dst_w = ceil($src_w*$scale);
+			$dst_h = ceil($src_h*$scale);
+		}
+		//image_type_to_mime_type()函数判断一个imagetype常量的MIME类型
+		//MIME 消息能包含文本、图像、音频、视频以及其他应用程序专用的数据。
+		//返回值类似：IMAGETYPE_GIF 对应 image/gif;IMAGETYPE_JPEG对应image/jpeg.
+		$mime = image_type_to_mime_type($imagetype);
+		//echo $mime;这里输出image/jpeg
+		//替换mime数据里的/为createfrom
+		//创建画布资源，原句为：$src_image = imagecreatefromjpeg,这里因为是jpeg所以写formjpeg,若是gif则为creategif
+		//这里函数用替换法来灵活的确定创建什么样子的画布把image/jpeg变成imagecreatejpeg
+		$createFun = str_replace("/","createfrom",$mime);
+		//创建一个JPEG图像并保存，原句为:imagejpeg()
+		//imagejpeg(resource $image[, string $filename [, int $quality ]] )函数以$filename问文件名创建一个JPEG图像，输出图像至浏览器或文件中，若有路径则到文件在
+		//这里函数用替换法来灵活确定输出什么样子的图片，把image/jpeg变成imagejpeg
+		$outFun = str_replace("/",null,$mime);
+		//图片资源赋值给$src_image,即imagecreatejpeg出来的内容赋值给$src_image
+		$src_image = $createFun($filename);
+		//imagecreatetruecolor()创建一个真彩色图像
+		$dst_image = imagecreatetruecolor($dst_w,$dst_h);
+		//将一幅图像中的一块正方形区域拷贝到另一个图像中，平滑的插入像素值，因此，尤其是，减小了图像的大小而仍然保持了极大的清晰度。
+		//这里将$src_image插入$dst_image中
+		imagecopyresampled($dst_image,$src_image,0,0,0,0,$dst_w,$dst_h,$src_w,$src_h);
+		//判断存储路径是否存在,dirname() 函数返回路径中的目录部分。
+		if($destination&&!file_exists(dirname($destination))){
+			mkdir(dirname($destination),0777,true);
+		}
+		//生成唯一的文件名
+		$dstFilename = $destination == null?getUniName().".".getExt($filename):$destination;
+		//存储文件至文件夹中
+		$outFun($dst_image,$dstFilename);
+		imagedestroy($src_image);
+		imagedestroy($dst_image);
+		//isReservedSource，判断是否保留原目录里的原文件，这里预设了false，所以为删除
+		if(!$isReservedSource){
+			//unlink() 函数删除文件。
+			unlink($filename);
+		}
+		return $dstFilename;
 	}
 ?>
