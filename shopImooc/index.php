@@ -1,4 +1,13 @@
-﻿<!doctype html>
+﻿<?php
+	require_once ("include.php");
+	//获取商品信息数组
+	$cates = getAllcate();
+	//判断是否有商品信息及返回的是否是个数组
+	if(!($cates&&is_array($cates))){
+		alertMes("网站维护中","http://www.imooc.com");
+	}
+?>
+<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -124,10 +133,9 @@
 		</div>
 	</div>
 </div>
-
-
+<?php foreach($cates as $cate): ?>
 <div class="shopTit comWidth">
-	<span class="icon"></span><h3>家用电脑</h3>
+	<span class="icon"></span><h3><?php echo $cate['cName']; ?></h3>
 	<a href="#" class="more">更多&gt;&gt;</a>
 </div>
 <div class="shopList comWidth clearfix">
@@ -144,75 +152,50 @@
 	</div>
 	<div class="rightArea">
 		<div class="shopList_top clearfix">
+		<?php
+			//遍历循环商品信息
+			$pros = getProsByCid($cate['id']); 
+			if($pros && is_array($pros)):
+			foreach($pros as $pro):
+			$proImg = getProImgById($pro['id']);
+		?>
 			<div class="shop_item">
 				<div class="shop_img">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
+					<a href="proDetails.php?id=<?php echo $pro['id']; ?>" target="_blank"><img height="200" width="187" src="image_220/<?php echo $proImg['albumPath']; ?>" alt=""></a>
 				</div>
-				<h3>HTC新渴望8系列</h3>
-				<p>1899元</p>
+				<h6><?php echo $pro['pName']; ?></h6>
+				<p><?php echo $pro['iPrice']; ?>元</p>
 			</div>
-			<div class="shop_item">
-				<div class="shop_img">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
-				</div>
-				<h3>HTC新渴望8系列</h3>
-				<p>1899元</p>
-			</div>
-			<div class="shop_item">
-				<div class="shop_img">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
-				</div>
-				<h3>HTC新渴望8系列</h3>
-				<p>1899元</p>
-			</div>
-			<div class="shop_item">
-				<div class="shop_img">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
-				</div>
-				<h3>HTC新渴望8系列</h3>
-				<p>1899元</p>
-			</div>
+		<?php
+			endforeach;
+			endif;
+		?>
 		</div>
 		<div class="shopList_sm clearfix">
+		<?php
+			//遍历循环商品信息
+			$prosSmall = getSmallProsByCid($cate['id']);
+			if($prosSmall&&is_array($prosSmall)):
+			foreach($prosSmall as $proSmall):
+			$proSmallImg = getProImgById($proSmall['id']);
+		?>
 			<div class="shopItem_sm">
 				<div class="shopItem_smImg">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
+					<a href="proDetails.php?id=<?php echo $proSmall['id']; ?>" target="_blank"><img width="95" height="95" src="image_220/<?php echo $proSmallImg['albumPath']; ?>" alt=""></a>
 				</div>
 				<div class="shopItem_text">
-					<p>NFC技术一碰轻松配对！接触屏幕</p>
-					<h3>￥149.00	</h3>
+					<p><?php echo $proSmall['pName']; ?></p>
+					<h3><?php echo $proSmall['iPrice']; ?></h3>
 				</div>
 			</div>
-			<div class="shopItem_sm">
-				<div class="shopItem_smImg">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
-				</div>
-				<div class="shopItem_text">
-					<p>NFC技术一碰轻松配对！接触屏幕</p>
-					<h3>￥149.00	</h3>
-				</div>
-			</div>
-			<div class="shopItem_sm">
-				<div class="shopItem_smImg">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
-				</div>
-				<div class="shopItem_text">
-					<p>NFC技术一碰轻松配对！接触屏幕</p>
-					<h3>￥149.00	</h3>
-				</div>
-			</div>
-			<div class="shopItem_sm">
-				<div class="shopItem_smImg">
-					<a href="#"><img src="images/shopImg.jpg" alt=""></a>
-				</div>
-				<div class="shopItem_text">
-					<p>NFC技术一碰轻松配对！接触屏幕</p>
-					<h3>￥149.00	</h3>
-				</div>
-			</div>
+			<?php
+			endforeach;
+			endif;
+			?>
 		</div>
 	</div>
 </div>
+<?php endforeach; ?>
 <div class="hr_25"></div>
 <div class="footer">
 	<p><a href="#">慕课简介</a><i>|</i><a href="#">慕课公告</a><i>|</i> <a href="#">招纳贤士</a><i>|</i><a href="#">联系我们</a><i>|</i>客服热线：400-675-1234</p>

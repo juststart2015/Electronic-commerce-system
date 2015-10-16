@@ -191,37 +191,46 @@
 		return $rows;
 	}
 
-/**
- * 得到所有商品
- * @return array
- */
-function getAllPros(){
-	$sql="select p.id,p.pName,p.pSn,p.pNum,p.mPrice,p.iPrice,p.pDesc,p.pubTime,p.isShow,p.isHot,c.cName,p.cId from imooc_pro as p join imooc_cate c on p.cId=c.id ";
-	$rows=fetchAll($sql);
-	return $rows;
-}
+	/**
+	 * 得到所有商品信息
+	 * @return array
+	 */
+	function getAllPros(){
+		$sql="select p.id,p.pName,p.pSn,p.pNum,p.mPrice,p.iPrice,p.pDesc,p.pubTime,p.isShow,p.isHot,c.cName,p.cId from imooc_pro as p join imooc_cate c on p.cId=c.id ";
+		$rows=fetchAll($sql);
+		return $rows;
+	}
 
-/**
- *根据cid得到4条产品
- * @param int $cid
- * @return Array
- */
-function getProsByCid($cid){
-	$sql="select p.id,p.pName,p.pSn,p.pNum,p.mPrice,p.iPrice,p.pDesc,p.pubTime,p.isShow,p.isHot,c.cName,p.cId from imooc_pro as p join imooc_cate c on p.cId=c.id where p.cId={$cid} limit 4";
-	$rows=fetchAll($sql);
-	return $rows;
-}
+	/**
+	 *根据cid得到4条产品
+	 * @param int $cid
+	 * @return Array
+	 */
+	function getProsByCid($cid){
+		$sql="select p.id,p.pName,p.pSn,p.pNum,p.mPrice,p.iPrice,p.pDesc,p.pubTime,p.isShow,p.isHot,c.cName,p.cId from imooc_pro as p join imooc_cate c on p.cId=c.id where p.cId={$cid} limit 4";
+		$rows=fetchAll($sql);
+		return $rows;
+	}
 
-/**
- * 得到下4条产品
- * @param int $cid
- * @return array
- */
-function getSmallProsByCid($cid){
-	$sql="select p.id,p.pName,p.pSn,p.pNum,p.mPrice,p.iPrice,p.pDesc,p.pubTime,p.isShow,p.isHot,c.cName,p.cId from imooc_pro as p join imooc_cate c on p.cId=c.id where p.cId={$cid} limit 4,4";
-	$rows=fetchAll($sql);
-	return $rows;
-}
+	/**
+	 * 得到下4条产品
+	 * @param int $cid
+	 * @return array
+	 */
+	function getSmallProsByCid($cid){
+	/*
+	limit是mysql的语法：
+	select * from table limit m,n
+	其中m是指记录开始的index，从0开始，表示第一条记录
+	n是指从第m+1条开始，取n条。
+	select * from tablename limit 2,4
+	即取出第3条至第6条，4条记录
+	*/
+	//这里用limit4,4，是因为前台大图片已经能够显示了4条了，下面要显示的为第5条开始，所以是4，后面的4是来限制只取4条
+		$sql="select p.id,p.pName,p.pSn,p.pNum,p.mPrice,p.iPrice,p.pDesc,p.pubTime,p.isShow,p.isHot,c.cName,p.cId from imooc_pro as p join imooc_cate c on p.cId=c.id where p.cId={$cid} limit 4,4";
+		$rows=fetchAll($sql);
+		return $rows;
+	}
 
 /**
  *得到商品ID和商品名称
