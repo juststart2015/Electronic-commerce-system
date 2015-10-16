@@ -2,6 +2,7 @@
 	error_reporting(0);
 	require_once("../include.php");
 	$username = $_POST['username'];
+	$username = addslashes($username);
 	$password = md5($_POST['password']);
 	//POST过来的verify
 	$verify = $_POST['verify'];

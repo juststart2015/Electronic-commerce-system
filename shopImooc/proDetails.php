@@ -44,7 +44,13 @@
 				<a href="#" class="collection">收藏慕课</a>
 			</div>
 			<div class="rightArea">
-				欢迎来到慕课网！<a href="#">[登录]</a><a href="#">[免费注册]</a>
+				欢迎来到慕课网！
+				<?php if($_SESSION['loginFlag']):?>
+				<span>欢迎您</span><?php echo $_SESSION['username'];?>
+				<a href="doAction.php?act=userOut">[退出]</a>
+				<?php else:?>
+				<a href="login.php">[登录]</a><a href="reg.php">[免费注册]</a>
+				<?php endif;?>
 			</div>
 		</div>
 	</div>

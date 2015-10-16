@@ -56,6 +56,7 @@
 		$rows = fetchAll($sql);
 		return $rows;
 	}
+	
 	//编辑管理员
 	function editAdmin($id){
 		$arr = $_POST;
@@ -91,5 +92,58 @@
 		}
 		session_destroy();
 		header("location:login.php");
+	}
+	
+	//添加用户
+	function addUser(){
+		$arr = $_POST;
+		$arr['password']=md5($_POST['password']);
+		$arr['regTime']=time();
+		$uploadFile=uploadFile("../uploads");
+		if($uploadFile&&is_array($uploadFile)){
+			$arr['face']=$uploadFile[0]['name'];
+		}else{
+			return "添加失败<a href='addUser.php'>重新添加</a>";
+		}
+		if(insert("imooc_user",$arr)){
+			$mes = "添加成功！<br/><a href='addUser.php'>继续添加</a>|<a href='listUser.php'>查看用户列表</a>";
+		}else{
+			$filename='../uploads/'.$uploadFile[0]['name'];
+			if(file_exists($filename)){
+				unlink($filename);
+			}
+			$mes = "添加失败！<br/><a href='addUser.php'>重新添加</a>|<a href='listUser.php'>查看用户列表</a>";
+		}
+		return $mes;
+	}
+	
+	//删除用户
+	function delUser($id){
+		//先查询出用户头像
+		$sql = "select face from imooc_user where id = ".$id;
+		$row = fetchOne($sql);
+		$face = $row['face'];
+		//判断是否存在头像文件，若有则删除之
+		if(file_exists("../uploads/".$face)){
+			unlink("../uploads/".$face);
+		}
+		if(delete("imooc_user","id={$id}")){
+			$mes = "删除成功！<br/><a href ='listUser.php'>查看用户列表</a>";
+		}else{
+			$mes = "删除失败！<br/><a href ='listUser.php'>请重新删除</a>";
+		}
+		return $mes;
+	}
+	
+	//编辑用户
+	function editUser($id){
+		$arr = $_POST;
+		$arr['password'] = md5($_POST['password']);
+		if(update("imooc_user",$arr,"id={$id}")){
+			$mes = "编辑成功！<br/><a href='listUser.php'>查看用户列表</a>";
+		}else{
+			$mes = "编辑失败！<br/><a href='listUser.php'>请重新修改</a>";
+		}
+		return $mes;
 	}
 ?>
