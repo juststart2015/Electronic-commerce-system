@@ -16,8 +16,13 @@
 		$where = "id={$id}";
 		$mes = editCate($where);
 	}elseif($act == "delCate"){
-		$where = "id={$id}";
-		$mes = delCate($where);
+		$mes = delCate($id);
+	}elseif($act == "addPro"){
+		$mes = addPro();
+	}elseif($act == "editPro"){
+		$mes = editPro($id);
+	}elseif($act == "delPro"){
+		$mes = delPro($id);
 	}
 ?>
 

@@ -1,5 +1,7 @@
 <?php
 	header("content-type:text/html;charset=utf-8");
+	//设定时区
+	date_default_timezone_set("PRC");
 	session_start();
 	//dirname(__FILE__)返回当前文件的路径名；单纯的__FILE__是PHP常定量，返回文件所在的路径及文件名
 	//define(a,b,c)，a为常量名，b为常量值，c确定是否对大小写敏感(可选)，返回常量a的值b；
@@ -16,5 +18,8 @@
 	require_once ("configs.php");
 	require_once ("admin.inc.php");
 	require_once ("cate.inc.php");
+	require_once ("pro.inc.php");
+	require_once ("album.inc.php");
+	require_once ("upload.func.php");
 	connect();
 ?>

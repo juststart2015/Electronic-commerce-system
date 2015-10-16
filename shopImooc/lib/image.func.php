@@ -71,7 +71,7 @@
 	}
 	
 	//生成缩略图函数
-	function thumb($filename,$destination=null,$dst_w=null,$dst_h=null,$isReservedSource=false,$scale=0.5){
+	function thumb($filename,$destination=null,$dst_w=null,$dst_h=null,$isReservedSource=true,$scale=0.5){
 		//list()函数为里面的元素赋上数组中的值,getimagesize ( string $filename [, array &$imageinfo ] )获取图像的大小，若没有有效信息，返回false
 		list($src_w,$src_h,$imagetype)=getimagesize($filename);
 		//设置默认缩放比例
@@ -91,7 +91,7 @@
 		//这里函数用替换法来灵活的确定创建什么样子的画布把image/jpeg变成imagecreatejpeg
 		$createFun = str_replace("/","createfrom",$mime);
 		//创建一个JPEG图像并保存，原句为:imagejpeg()
-		//imagejpeg(resource $image[, string $filename [, int $quality ]] )函数以$filename问文件名创建一个JPEG图像，输出图像至浏览器或文件中，若有路径则到文件在
+		//imagejpeg(resource $image[, string $filename [, int $quality ]] )函数以$filename问文件名创建一个JPEG图像，输出图像至浏览器或文件中，若有文件名则到文件中
 		//这里函数用替换法来灵活确定输出什么样子的图片，把image/jpeg变成imagejpeg
 		$outFun = str_replace("/",null,$mime);
 		//图片资源赋值给$src_image,即imagecreatejpeg出来的内容赋值给$src_image
@@ -111,7 +111,7 @@
 		$outFun($dst_image,$dstFilename);
 		imagedestroy($src_image);
 		imagedestroy($dst_image);
-		//isReservedSource，判断是否保留原目录里的原文件，这里预设了false，所以为删除
+		//isReservedSource，判断是否保留原目录里的原文件，这里预设了true,所以不删除
 		if(!$isReservedSource){
 			//unlink() 函数删除文件。
 			unlink($filename);

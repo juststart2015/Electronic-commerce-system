@@ -16,7 +16,7 @@
 		<table width="70%" border="1" cellpadding="5" cellspacing="0" bgcolor="#cccccc">
 			<tr>
 				<td align="right">分类名称</td>
-				<td><input type="text" name="cName" placeholder="<?php echo $row['cName']; ?>" /></td>
+				<td><input type="text" name="cName" value="<?php echo $row['cName']; ?>" /></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="修改分类" /></td>

@@ -68,4 +68,10 @@
 		$result = mysql_query($sql);
 		return mysql_num_rows($result);
 	}
+	
+	//得到上一步插入记录的ID号
+	function getInsertId(){
+		//mysql_insert_id() 函数返回上一步 INSERT 操作产生的 ID。
+		return mysql_insert_id();
+	}
 ?>
