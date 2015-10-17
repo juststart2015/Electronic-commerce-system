@@ -33,10 +33,11 @@
 	function doWaterText($id){
 		$rows=getProImgsById($id);
 		foreach($rows as $row){
+			//定义要加文字水印的图片路径及文件名,这里给大图文件夹image_800内的图片加水印
 			$filename="../image_800/".$row['albumPath'];
 			waterText($filename);
 		}
-		$mes="操作成功";
+		$mes="操作成功！<br/><a href='listProImages.php' target='mainFrame'>查看商品图片列表</a>";
 		return $mes;
 	}
 	
@@ -51,7 +52,7 @@
 			$filename="../image_800/".$row['albumPath'];
 			waterPic($filename);
 		}
-		$mes="操作成功";
+		$mes="操作成功！<br/><a href='listProImages.php' target='mainFrame'>查看商品图片列表</a>";
 		return $mes;
 	}
 ?>

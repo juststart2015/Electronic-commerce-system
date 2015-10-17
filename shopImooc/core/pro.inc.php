@@ -232,12 +232,12 @@
 		return $rows;
 	}
 
-/**
- *得到商品ID和商品名称
- * @return array
- */
-function getProInfo(){
-	$sql="select id,pName from imooc_pro order by id asc";
-	$rows=fetchAll($sql);
-	return $rows;
-}
+	/**
+	 *得到商品ID和商品名称
+	 * @return array
+	 */
+	function getProInfo(){
+		$sql="select id,pName from imooc_pro order by id asc";
+		$rows=fetchAll($sql);
+		return $rows;
+	}

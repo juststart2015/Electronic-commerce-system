@@ -29,6 +29,10 @@
 		$mes = delUser($id);
 	}elseif($act == "editUser"){
 		$mes = editUser($id);
+	}elseif($act == "waterText"){
+		$mes = doWaterText($id);
+	}elseif($act == "waterPic"){
+		$mes = doWaterPic($id);
 	}
 ?>
 
